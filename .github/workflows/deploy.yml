@@ -11,21 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code to ubuntu server of github
-        uses: actions/checkout@v3
-
       - name: Setup nodejs of ubuntu-latest
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      - name: Checkout code to ubuntu server of github
+        uses: actions/checkout@v3
+
       - name: Install dependencies
         run: npm install
 
       - name: Run storybook
-        run: npx start-storybook -p 6006
+        run: npm run storybook &
+        continue-on-error: true
       
-      - name: Run test
+      - name: Run tests with coverage
         run: npm test -- --coverage
 
       - name: Upload coverage result to ubuntu server of github
