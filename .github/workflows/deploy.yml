@@ -10,6 +10,9 @@ on:
     types:
       - completed
 
+env:
+  TARGET_BRANCH: production
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -76,7 +79,7 @@ jobs:
   merge-to-production:
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run' && needs.build-and-test.result == 'success'
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
   
     steps:
       - name: Checkout repository
@@ -84,16 +87,20 @@ jobs:
       
       - name: Check if target branch exists
         run: |
-          if git show-ref --verify --quiet refs/heads/production; then
-            echo "Branch 'production' exists."
-            git checkout production
+          if git show-ref --verify --quiet refs/heads/${{ env.TARGET_BRANCH }}; then
+            echo "Branch '${{ env.TARGET_BRANCH }}' exists."
+            git checkout ${{ env.TARGET_BRANCH }}
           else
-            echo "Branch 'production' does not exist. Creating a new branch."
-            git checkout -b production
-          fi
+            echo "Branch '${{ env.TARGET_BRANCH }}' does not exist. Creating a new branch."
+            git checkout -b ${{ env.TARGET_BRANCH }}
+      
       - name: Merge main into production
         run: |
           git merge main
-          git push origin production
+          if [ $? -ne 0 ]; then
+            echo "Merge failed, exiting."
+            exit 1
+          fi
+          git push origin ${{ env.TARGET_BRANCH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
