@@ -28,6 +28,7 @@ jobs:
       # start storybook
       - name: Start storybook
         run: npm run storybook
+        run: npx wait-on http://127.0.0.1:6006
       # start test-storybook
       - name: Start coverage
-        run: yarn run test-storybook
+        run: npm run test-storybook -- --coverage
