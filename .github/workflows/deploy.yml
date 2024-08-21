@@ -25,3 +25,6 @@ jobs:
       # install playwright
       - name: Install playwright
         run: npm init playwright@latest
+      # start storybook
+      - name: Start storybook
+        run: npm storybook
