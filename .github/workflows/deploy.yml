@@ -1,7 +1,7 @@
 name: CI with nextjs
 
 on:
-  push: 
+  push:
     branches: [main]
   pull_request:
     branches: [main]
@@ -80,7 +80,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     if: needs.build-and-test.result == 'success'
-  
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -106,11 +106,9 @@ jobs:
 
       - name: Merge main into production
         run: |
+          git checkout ${{env.TARGET_BRANCH}}
           git merge main
-          if [ $? -ne 0 ]; then
-            echo "Merge failed, exiting."
-            exit 1
-          fi
           git push origin ${{ env.TARGET_BRANCH }}
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
