@@ -23,7 +23,7 @@ jobs:
         run: npm install
       
       - name: Run tests
-        run: npm test-storybook -- --coverage
+        run: npm test -- --coverage
 
       - name: Upload coverage result to ubuntu server of github
         uses: actions/upload-artifact@v3
