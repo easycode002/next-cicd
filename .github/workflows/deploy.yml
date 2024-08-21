@@ -11,13 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # for clone code from repo to ubuntu
       - name: Checkout repository
         uses: actions/checkout@v4
-
+      # for setup node.js in ubuntu
       - name: Set up Node.JS for server github
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-        
+      # install all dependencies, base on package.json
       - name: Install dependencies
         run: npm install
+      # install playwright
+      - name: Install playwright
+        run: npm init playwright@latest
