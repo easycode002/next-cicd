@@ -106,9 +106,7 @@ jobs:
 
       - name: Merge main into production
         run: |
-          git checkout ${{env.TARGET_BRANCH}}
           git merge main
           git push origin ${{ env.TARGET_BRANCH }}
-
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
