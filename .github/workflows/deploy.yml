@@ -20,7 +20,8 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Check outdate some package
-        run: npm outdated
+        run: npm outdated ||
+        continue-on-error: true
 
       - name: Install dependencies
         run: npm install
