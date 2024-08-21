@@ -79,7 +79,8 @@ jobs:
   merge-to-production:
     needs: build-and-test
     runs-on: ubuntu-latest
-
+    if: needs.build-and-test.result == 'success'
+  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -90,16 +91,19 @@ jobs:
           echo "Workflow run conclusion: ${{ github.event.workflow_run.conclusion }}"
           echo "Workflow run status: ${{ github.event.workflow_run.status }}"
 
+      - name: Fetch all branches
+        run: git fetch --all
+
       - name: Check if target branch exists
         run: |
-          git fetch origin
           if git show-ref --verify --quiet refs/heads/${{ env.TARGET_BRANCH }}; then
             echo "Branch '${{ env.TARGET_BRANCH }}' exists."
             git checkout ${{ env.TARGET_BRANCH }}
           else
             echo "Branch '${{ env.TARGET_BRANCH }}' does not exist. Creating a new branch."
             git checkout -b ${{ env.TARGET_BRANCH }}
-      
+          fi
+
       - name: Merge main into production
         run: |
           git merge main
