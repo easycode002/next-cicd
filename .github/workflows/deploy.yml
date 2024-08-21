@@ -19,6 +19,9 @@ jobs:
       - name: Checkout code to ubuntu server of github
         uses: actions/checkout@v3
 
+      - name: Check outdate some package
+        run: npm outdated
+
       - name: Install dependencies
         run: npm install
 
