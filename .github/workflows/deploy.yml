@@ -28,3 +28,6 @@ jobs:
       # start storybook
       - name: Start storybook
         run: npm run storybook
+      # start test-storybook
+      - name: Start coverage
+        run: yarn run test-storybook
