@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Run storybook
-        run: npm storybook
+        run: npx start-storybook -p 6006
       
       - name: Run test
         run: npm test -- --coverage
