@@ -79,14 +79,20 @@ jobs:
   merge-to-production:
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run'
-  
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
+      - name: Debug - Output event name and conclusion
+        run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Workflow run conclusion: ${{ github.event.workflow_run.conclusion }}"
+
       - name: Check if target branch exists
         run: |
+          git fetch origin
           if git show-ref --verify --quiet refs/heads/${{ env.TARGET_BRANCH }}; then
             echo "Branch '${{ env.TARGET_BRANCH }}' exists."
             git checkout ${{ env.TARGET_BRANCH }}
@@ -104,4 +110,3 @@ jobs:
           git push origin ${{ env.TARGET_BRANCH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
