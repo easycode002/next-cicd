@@ -77,6 +77,9 @@ jobs:
         run: kill $(lsof -t -i:6006)
 
   merge-to-production:
+    permissions:
+    contents: read
+    pages: write 
     needs: build-and-test
     runs-on: ubuntu-latest
     if: needs.build-and-test.result == 'success'
