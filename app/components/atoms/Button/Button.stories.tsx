@@ -47,7 +47,7 @@ export const IconOnly: StoryObj<ButtonProps> = {
     color: "secondary",
     variant: "bordered",
     isIconOnly: true,
-    startContent: <FiCoffee />,
+    startContent: <FiCoffee data-testid="icon"/>,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
