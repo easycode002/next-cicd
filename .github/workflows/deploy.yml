@@ -35,10 +35,11 @@ jobs:
       - name: Start coverage
         run: npm run test-storybook -- --coverage
 
-      - name: Check coverage threshol d
+      - name: Check coverage threshold
         run: |
           COVERAGE=$(grep -o '"statements": [0-9.]*' ./coverage/coverage-summary.json | awk '{print $2}')
-          if (( $(echo "$COVERAGE < 50.0" |bc -l) )); then
+          echo "Test coverage is $COVERAGE%"
+          if (( $(echo "$COVERAGE < 50.0" | bc -l) )); then
             echo "Test coverage ($COVERAGE%) is below the required threshold of 50%."
             exit 1
           else
