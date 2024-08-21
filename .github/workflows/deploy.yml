@@ -5,10 +5,15 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_run:
+    workflows: ["CI with Next.js"]
+    types:
+      - completed
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
 
     steps:
       # for clone code from repo to ubuntu
@@ -67,3 +72,28 @@ jobs:
       # Stop Storybook
       - name: Stop Storybook
         run: kill $(lsof -t -i:6006)
+
+  merge-to-production:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_run' && needs.build-and-test.result == 'success'
+  
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check if target branch exists
+        run: |
+          if git show-ref --verify --quiet refs/heads/production; then
+            echo "Branch 'production' exists."
+            git checkout production
+          else
+            echo "Branch 'production' does not exist. Creating a new branch."
+            git checkout -b production
+          fi
+      - name: Merge main into production
+        run: |
+          git merge main
+          git push origin production
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
