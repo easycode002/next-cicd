@@ -23,7 +23,7 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'pull_request'
 
     steps:
-      # for clone code from repo to ubuntu machine
+      # for clone code from repo to ubuntu
       - name: Checkout repository
         uses: actions/checkout@v4
 
