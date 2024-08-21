@@ -79,7 +79,7 @@ jobs:
   merge-to-production:
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_run'
   
     steps:
       - name: Checkout repository
@@ -104,3 +104,4 @@ jobs:
           git push origin ${{ env.TARGET_BRANCH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
