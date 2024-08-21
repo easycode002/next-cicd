@@ -61,7 +61,7 @@ jobs:
             echo "Test coverage ($COVERAGE%) meets the required threshold."
           fi
 
-      # Upload coverage to Codecov
+      # Upload coverage to Codecov.
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
@@ -80,7 +80,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
-
+  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -89,6 +89,7 @@ jobs:
         run: |
           echo "Event name: ${{ github.event_name }}"
           echo "Workflow run conclusion: ${{ github.event.workflow_run.conclusion }}"
+          echo "Workflow run status: ${{ github.event.workflow_run.status }}"
 
       - name: Check if target branch exists
         run: |
