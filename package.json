@@ -10,7 +10,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "test": "next test --coverage"
   },
   "dependencies": {
     "classnames": "^2.5.1",
