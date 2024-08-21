@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - names: Run tests
+      - name: Run tests
         run: npm test-storybook -- --coverage
 
       - name: Upload coverage result to ubuntu server of github
