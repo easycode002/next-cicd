@@ -19,16 +19,11 @@ jobs:
       - name: Checkout code to ubuntu server of github
         uses: actions/checkout@v3
 
-      - name: Check outdate some package
-        run: npm outdated ||
-        continue-on-error: true
-
       - name: Install dependencies
         run: npm install
 
       - name: Run storybook
-        run: npm run storybook &
-        continue-on-error: true
+        run: npm run storybook
       
       - name: Run tests with coverage
         run: npm test -- --coverage
