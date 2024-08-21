@@ -24,7 +24,7 @@ jobs:
         run: npm install
       # install playwright
       - name: Install playwright
-        run: npm init playwright@latest
+        run: npx playwright install
       # start storybook
       - name: Start Storybook
         run: yarn storybook --ci --port 6006 &
