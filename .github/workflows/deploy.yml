@@ -67,4 +67,3 @@ jobs:
       # Stop Storybook
       - name: Stop Storybook
         run: kill $(lsof -t -i:6006)
-        echo ($COVERAGE%)
