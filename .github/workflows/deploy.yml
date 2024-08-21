@@ -14,27 +14,34 @@ jobs:
       # for clone code from repo to ubuntu
       - name: Checkout repository
         uses: actions/checkout@v4
+
       # for setup node.js in ubuntu
       - name: Set up Node.JS for server github
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
       # install all dependencies, base on package.json
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
       # install playwright
       - name: Install playwright
         run: npx playwright install
+
       # start storybook
       - name: Start Storybook
-        run: npm storybook --ci --port 6006 &
-      # This command starts Storybook in the background
+        run: npm run storybook -- --ci --port 6006 &
+
+      # Wait for Storybook to be available
       - name: Wait for Storybook to be available
         run: npx wait-on http://127.0.0.1:6006
-      # start test-storybook
+
+      # Run coverage tests
       - name: Start coverage
         run: npm run test-storybook -- --coverage
 
+      # Check coverage threshold
       - name: Check coverage threshold
         run: |
           COVERAGE=$(grep -o '"statements": [0-9.]*' ./coverage/coverage-summary.json | awk '{print $2}')
@@ -46,6 +53,7 @@ jobs:
             echo "Test coverage ($COVERAGE%) meets the required threshold."
           fi
 
+      # Upload coverage to Codecov
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
@@ -56,5 +64,7 @@ jobs:
           fail_ci_if_error: true
           verbose: true
 
+      # Stop Storybook
       - name: Stop Storybook
         run: kill $(lsof -t -i:6006)
+        echo ($COVERAGE%)
