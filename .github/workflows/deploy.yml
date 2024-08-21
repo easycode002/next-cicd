@@ -27,4 +27,4 @@ jobs:
         run: npm init playwright@latest
       # start storybook
       - name: Start storybook
-        run: npm storybook
+        run: npm run storybook
