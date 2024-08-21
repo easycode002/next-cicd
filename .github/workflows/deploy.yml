@@ -23,7 +23,7 @@ jobs:
         run: npm install
       
       - name: Run tests
-        run: npm test -- --coverage
+        run: npm test
 
       - name: Upload coverage result to ubuntu server of github
         uses: actions/upload-artifact@v3
