@@ -13,6 +13,10 @@ on:
 env:
   TARGET_BRANCH: production
 
+permissions:
+  contents: read
+  pages: write
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
