@@ -24,7 +24,7 @@ jobs:
 
       # install all dependencies, base on package.json
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # install playwright
       - name: Install playwright
