@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <div className="bg-slate-400 w-full h-screen">
-        <h1 className="font-bold text-5xl mb-10 text-white">What is error?</h1>
+        <h1 className="font-bold text-5xl mb-10 text-white">Every .. to be good.</h1>
         {/* <ToggleButton
           selected={selected}
           setSelected={setSelected}
